@@ -1,13 +1,13 @@
 from fastapi import APIRouter
 
 
-home = APIRouter(
-    prefix='/',
-    tags=['home'],
+route = APIRouter(
+    prefix='/home',
+    tags=['Home'],
 )
 
 
-@home.get(path='/', tags=['Home'], summary='Home in the app')
+@route.get(path='/', tags=['Home'], summary='Home in the app')
 async def home():
     """Home
 
