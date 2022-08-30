@@ -11,7 +11,7 @@ home = APIRouter(
 async def home():
     """Home
 
-    Returns:
+    Returns: 
 
         json: json hello twitter
     """
