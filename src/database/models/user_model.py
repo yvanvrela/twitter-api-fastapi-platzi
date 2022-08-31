@@ -1,34 +1,15 @@
-from models import BaseModel, Field, EmailStr
-from uuid import UUID
+from utils.db import db
 from datetime import date
+import peewee
 
 
-class UserBase(BaseModel):
-    user_id: UUID | Field(
-        ...,
-    )
-    email = EmailStr = Field(...)
+class User(peewee.Model):
+    email = peewee.CharField(unique=True, index=True)
+    first_name = peewee.CharField()
+    last_name = peewee.CharField()
+    birth_date = peewee.DateField(default=date)
+    password = peewee.CharField()
 
-
-class User(UserBase):
-    first_name = str = Field(
-        ...,
-        min_length=1,
-        max_length=50,
-        example='Juan',
-    )
-    last_name = str = Field(
-        ...,
-        min_length=1,
-        max_length=50,
-        example='Vargas',
-    )
-    birth_date: date | None = Field(
-        ...,
-        example='1999-01-01',
-    )
-
-
-class UserLogin(UserBase):
-    password: str | Field(..., min_length=8, max_length=64,
-                          example='secretsecret',)
+    class Meta:
+        table_name = 'users'
+        database = db
