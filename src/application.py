@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from routes.home_route import route as home
-from routes.user_route import users
-from routes.tweet_route import tweets
+from app.v1.routes.home_route import route as home
+from app.v1.routes.user_route import router as users
+from app.v1.routes.tweet_route import router as tweets
 
 
 def create_app() -> FastAPI:
