@@ -17,4 +17,4 @@ class TokenData(BaseModel):
     The token data model content information by the token.
 
     """
-    username: str | None = None
+    user_email: str | None = None

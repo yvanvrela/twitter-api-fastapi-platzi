@@ -29,7 +29,7 @@ class User(UserBase):
     )
 
 
-class UserLogin(UserBase):
+class UserLogin(User):
     password: str = Field(
         ...,
         min_length=8,
