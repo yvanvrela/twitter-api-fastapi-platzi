@@ -1,4 +1,4 @@
-from models.user_model import User
+from . import user_model
 from utils.db import db
 from datetime import datetime
 import peewee
@@ -10,7 +10,7 @@ class Tweet(peewee.Model):
     content = peewee.TextField()
     created_at = peewee.DateTimeField(default=datetime.now())
     update_at = peewee.DateTimeField(default=None)
-    by_user = peewee.ForeignKeyField(model=User, backref='tweets')
+    by_user = peewee.ForeignKeyField(model=user_model.User, backref='tweets')
 
     # The database connection
     class Meta:
