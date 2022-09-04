@@ -48,10 +48,11 @@ def create_user(user: user_schema.UserLogin) -> dict:
     # Save a data in the database
     db_user.save()
 
-    return user_schema.User(
+    return user_schema.UserBase(
         user_id=db_user.id,
         first_name=db_user.first_name,
         last_name=user.last_name,
+        email= user.email,
         birth_date=user.birth_date,
     )
 

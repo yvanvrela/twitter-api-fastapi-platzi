@@ -4,3 +4,4 @@ passlib[bcrypt]
 python-dotenv
 psycopg2
 peewee
+python-jose[cryptography]

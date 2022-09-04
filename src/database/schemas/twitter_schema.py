@@ -1,10 +1,11 @@
 from pydantic import BaseModel, Field
+from mixins.models_mixin import IDMixin
 from models.user_model import User
 from datetime import datetime
 
 
-class Tweet(BaseModel):
-    tweet_id: int = Field(...)
+class Tweet(IDMixin,BaseModel):
+    
     content: str = Field(
         ...,
         min_length=1,

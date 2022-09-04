@@ -1,6 +1,10 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, Body, status
+from database.schemas import user_schema
+
+
 
 router = APIRouter(
-    prefix='/users',
+    prefix='/api/v1/users',
     tags=['User'],
 )
+

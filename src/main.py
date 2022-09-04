@@ -1,6 +1,6 @@
 # FastApi
 from application import create_app
-from database.scripts.create_tables import create_tables
+from scripts.create_tables import create_tables
 import uvicorn
 
 app = create_app()

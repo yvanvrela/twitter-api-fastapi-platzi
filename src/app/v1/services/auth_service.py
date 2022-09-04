@@ -9,7 +9,7 @@ from jose import JWTError, jwt
 from database.models.user_model import User as UserModel
 from database.schemas.token_schema import TokenData
 from utils.passwords import verify_password
-from config.settings import Settings
+from ..config.settings import Settings
 from .user_service import get_user
 
 settings = Settings()
