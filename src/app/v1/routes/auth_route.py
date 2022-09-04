@@ -9,7 +9,7 @@ from ..services import user_service
 from utils.db import get_db
 
 router = APIRouter(
-    prefix='/auth',
+    prefix='/api/v1/auth',
     tags=['Auth', 'Users'],
 )
 
@@ -37,3 +37,33 @@ async def signup_user(user: user_schema.UserLogin = Body(...)):
         _type_: _description_
     """
     return user_service.create_user(user)
+
+
+@router.post(
+    path='/login/',
+    status_code=status.HTTP_200_OK,
+    response_model=Token,
+    summary='Login a user'
+)
+# OAuth2PasswordRequestForm class depends whith the form data.
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    """Login for access token
+
+    This endpoint login the user for access token.
+
+    Args:
+
+        form_data (OAuth2PasswordRequestForm): 
+            - username: Ther user email.
+            - password: The user password.
+
+    Returns:
+
+        json: json access token and token type.
+    """
+
+    access_token = auth_service.generate_token(
+        form_data.username,
+        form_data.password
+    )
+    return Token(access_token=access_token, token_type='bearer')
