@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, Body, status
+from typing import List
+
+# FastApi
+from fastapi import APIRouter, Depends, Body, status, Path
 
 from database.schemas import tweet_schema
 from database.schemas.user_schema import UserOut
@@ -24,3 +27,34 @@ async def create_tweet(
     current_user: UserOut = Depends(get_current_user),
 ):
     return tweet_service.create_tweet(tweet, current_user)
+
+
+@router.get(
+    path='/',
+    status_code=status.HTTP_200_OK,
+    response_model=List[tweet_schema.TweetOut],
+    dependencies=[Depends(get_db)],
+    summary='Get all tweets',
+)
+async def get_tweets(
+    current_user: UserOut = Depends(get_current_user)
+):
+    return tweet_service.get_tweets(current_user)
+
+
+@router.get(
+    path='/{id}',
+    status_code=status.HTTP_200_OK,
+    response_model=tweet_schema.TweetOut,
+    dependencies=[Depends(get_db)],
+    summary='Get a tweet',
+)
+async def get_tweets(
+    id: int = Path(
+        ...,
+        gt=0,
+        example=1,
+    ),
+    current_user: UserOut = Depends(get_current_user)
+):
+    return tweet_service.get_tweet(id, current_user)
