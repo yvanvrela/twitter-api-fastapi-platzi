@@ -58,3 +58,21 @@ async def get_tweets(
     current_user: UserOut = Depends(get_current_user)
 ):
     return tweet_service.get_tweet(id, current_user)
+
+
+@router.put(
+    path='/{id}',
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_db)],
+    summary='Update a tweet',
+)
+async def update_tweet(
+    id: int = Path(
+        ...,
+        gt=0,
+        example=1
+    ),
+    tweet: tweet_schema.TweetBase = Body(...),
+    current_user: UserOut = Depends(get_current_user)
+):
+    return tweet_service.update_tweet(id, tweet, current_user)

@@ -66,3 +66,28 @@ def get_tweet(tweet_id: int, user: user_schema.UserOut) -> dict:
         update_at=tweet.update_at,
         user_id=user.id
     )
+
+
+def update_tweet(tweet_id: int, tweet_update: tweet_schema.TweetOut, user: user_schema.UserOut) -> dict:
+    tweet_reference = TweetModel.filter((TweetModel.id == tweet_id) & (
+        TweetModel.by_user == user.id)).first()
+
+    if not tweet_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Tweet not found',
+        )
+
+    # Update
+    tweet_reference.content = tweet_update.content
+    tweet_reference.updated_at = datetime.now()
+
+    tweet_reference.save()
+
+    return tweet_schema.TweetOut(
+        id=tweet_reference.id,
+        content=tweet_reference.content,
+        created_at=tweet_reference.created_at,
+        update_at=tweet_reference.updated_at,
+        user_id=user.id
+    )
