@@ -21,7 +21,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.token_expire
 
 # Instance the login url and to validate token
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login/")
 
 
 def authenticate_user(user_email: str, password: str) -> UserModel | bool:

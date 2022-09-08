@@ -11,5 +11,6 @@ class IDMixin(BaseModel):
 
     id: int = Field(
         ..., 
-        description='Unique ID of the document.'
+        description='Unique ID of the document.',
+        example='2'
     )
