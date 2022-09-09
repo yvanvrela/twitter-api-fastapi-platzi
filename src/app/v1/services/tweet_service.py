@@ -91,3 +91,17 @@ def update_tweet(tweet_id: int, tweet_update: tweet_schema.TweetOut, user: user_
         update_at=tweet_reference.updated_at,
         user_id=user.id
     )
+
+
+def delte_tweet(tweet_id: int, user: user_schema.UserOut) -> None:
+    tweet_reference = TweetModel.filter(
+        (TweetModel.id == tweet_id) & (TweetModel.by_user == user.id)).first()
+
+    if not tweet_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Tweet not found'
+        )
+
+    # Delete
+    tweet_reference.delete_instance()

@@ -1,7 +1,7 @@
 from typing import List
 
 # FastApi
-from fastapi import APIRouter, Depends, Body, status, Path
+from fastapi import APIRouter, Depends, Body, status, Path, Response
 
 from database.schemas import tweet_schema
 from database.schemas.user_schema import UserOut
@@ -73,6 +73,25 @@ async def update_tweet(
         example=1
     ),
     tweet: tweet_schema.TweetBase = Body(...),
-    current_user: UserOut = Depends(get_current_user)
+    current_user: UserOut = Depends(get_current_user),
 ):
     return tweet_service.update_tweet(id, tweet, current_user)
+
+
+@router.delete(
+    path='/{id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(get_db)],
+    summary='Delete a tweet',
+)
+async def delete_tweet(
+    id: int = Path(
+        ...,
+        gt=0,
+        example=1,
+    ),
+    current_user: UserOut = Depends(get_current_user),
+):
+
+    tweet_service.delte_tweet(id, current_user)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
