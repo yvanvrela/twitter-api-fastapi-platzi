@@ -23,9 +23,22 @@ router = APIRouter(
     summary='Create a new tweet',
 )
 async def create_tweet(
-    tweet: tweet_schema.TweetOut,
+    tweet: tweet_schema.TweetBase,
     current_user: UserOut = Depends(get_current_user),
 ):
+    """Create a new tweet
+
+    This path operation create a new tweet in the app and save to database.
+
+    Args:
+
+        tweet (tweet_schema.TweetOut): Tweet base.
+        current_user (Token): This is the Token user.
+
+    Returns:
+s
+        json: json is the tweet created.
+    """
     return tweet_service.create_tweet(tweet, current_user)
 
 
@@ -39,6 +52,18 @@ async def create_tweet(
 async def get_tweets(
     current_user: UserOut = Depends(get_current_user)
 ):
+    """Get all tweets
+
+    This path operation show all tweets in the app.
+
+    Args:
+
+        current_user (Token): This is the Token user.
+
+    Returns:
+
+        list: the list contains the tweets in json. 
+    """
     return tweet_service.get_tweets(current_user)
 
 
@@ -57,6 +82,19 @@ async def get_tweets(
     ),
     current_user: UserOut = Depends(get_current_user)
 ):
+    """Get a tweet
+
+    This path operation show a tweet by id in the app.
+
+    Args:
+
+        id (int): This is the tweet id.
+        current_user (Token): This is the Token user.
+
+    Returns:
+
+        json: json tweet information.
+    """
     return tweet_service.get_tweet(id, current_user)
 
 
@@ -75,6 +113,20 @@ async def update_tweet(
     tweet: tweet_schema.TweetBase = Body(...),
     current_user: UserOut = Depends(get_current_user),
 ):
+    """Update a tweet
+
+    This path operation updated a tweet by id in the app.
+
+    Args:
+
+        id (int): This is the tweet id.
+        tweet (tweet_schema.TweetBase): This is the Tweet base json.
+        current_user (Token): This is the Token user.
+
+    Returns:
+
+        json: json tweet information updated.
+    """
     return tweet_service.update_tweet(id, tweet, current_user)
 
 
@@ -92,6 +144,19 @@ async def delete_tweet(
     ),
     current_user: UserOut = Depends(get_current_user),
 ):
+    """Delete a tweet
+
+    This path operation deleted a tweet in the app by id.
+
+    Args:
+
+        id (int): This is the tweet id.
+        current_user (Token): This is the Token user.
+
+    Returns:
+
+        status_code: 204
+    """
 
     tweet_service.delte_tweet(id, current_user)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

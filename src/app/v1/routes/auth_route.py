@@ -26,7 +26,7 @@ router = APIRouter(
 async def signup_user(user: user_schema.UserLogin = Body(...)):
     """Create a new user
 
-    This endpoint create new user in the app and save to database.
+    This path operation create new user in the app and save to database.
 
     Args:
 
@@ -49,7 +49,7 @@ async def signup_user(user: user_schema.UserLogin = Body(...)):
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     """Login for access token
 
-    This endpoint login the user for access token.
+    This path operation login the user for access token.
 
     Args:
 
