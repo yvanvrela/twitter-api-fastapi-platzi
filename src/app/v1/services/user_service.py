@@ -1,3 +1,5 @@
+from typing import List
+
 # FastApi
 from fastapi import HTTPException, status
 
@@ -52,12 +54,12 @@ def create_user(user: user_schema.UserLogin) -> dict:
         user_id=db_user.id,
         first_name=db_user.first_name,
         last_name=user.last_name,
-        email= user.email,
+        email=user.email,
         birth_date=user.birth_date,
     )
 
 
-def get_user(user_email: str) -> UserModel:
+def get_user(user_email: str) -> UserModel.email:
     """Get user by database
 
     Filter a user email in database
@@ -71,3 +73,34 @@ def get_user(user_email: str) -> UserModel:
         UserModel: UserModel is a object user.
     """
     return UserModel.filter(UserModel.email == user_email).first()
+
+
+def get_users() -> List[user_schema.UserOut]:
+    """Get user by database
+
+    This function return a list whith the users.
+
+    Returns: 
+
+        list: list contains the users in json.
+    """
+
+    users = UserModel.select()
+
+    list_users = [
+        user_schema.UserOut(
+            id=user.id,
+            first_name=user.first_name,
+            last_name=user.last_name,
+            email=user.email,
+            birth_date=user.birth_date,
+        )
+        for user in users
+    ]
+
+    return list_users
+
+
+def update_user(id: int, user: user_schema.UserOut):
+    user_reference = UserModel.filter(UserModel.id == id)
+    pass

@@ -36,7 +36,7 @@ async def create_tweet(
         current_user (Token): This is the Token user.
 
     Returns:
-s
+
         json: json is the tweet created.
     """
     return tweet_service.create_tweet(tweet, current_user)
