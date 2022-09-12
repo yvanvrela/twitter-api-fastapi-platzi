@@ -75,6 +75,25 @@ def get_user(user_email: str) -> UserModel.email:
     return UserModel.filter(UserModel.email == user_email).first()
 
 
+def get_user_by_id(user_id: int) -> user_schema.UserOut:
+
+    user = UserModel.filter(UserModel.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Tweet not found',
+        )
+
+    return user_schema.UserOut(
+        id=user.id,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        email=user.email,
+        birth_date=user.birth_date,
+    )
+
+
 def get_users() -> List[user_schema.UserOut]:
     """Get user by database
 
