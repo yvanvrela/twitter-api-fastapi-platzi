@@ -71,6 +71,20 @@ async def update_user(
     user: user_schema.UserLogin = Body(...),
     current_user=Depends(get_current_user)
 ):
+    """Update a user
+
+       This path operation updated a user by id in the app.
+
+       Args:
+
+           id (int): This is the user id.
+           user (user_schema.UserLogin): This is the User Login json.
+           current_user (Token): This is the Token user.
+
+       Returns:
+
+           json: json user information updated.
+       """
     return user_service.update_user(id, user, current_user)
 
 
