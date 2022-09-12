@@ -17,6 +17,7 @@ Features included:
 - Peewe (Postgresql)
 - JWT Authentication
 - FastAPI Router
+- Clean Architecture
 
 ### Requirements:
 
