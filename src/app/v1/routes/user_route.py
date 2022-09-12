@@ -2,6 +2,7 @@ from typing import List
 
 # FastApi
 from fastapi import APIRouter, Depends, Path, Body, status
+from app.v1.services.auth_service import get_current_user
 
 from database.schemas import user_schema
 from ..services import user_service
@@ -52,3 +53,22 @@ async def get_user(
         json: json user information.
     """
     return user_service.get_user_by_id(id)
+
+
+@router.put(
+    path='/{id}',
+    status_code=status.HTTP_200_OK,
+    response_model=user_schema.UserOut,
+    dependencies=[Depends(get_db)],
+    summary='Update a user',
+)
+async def update_user(
+    id: int = Path(
+        ...,
+        gt=0,
+        example=1,
+    ),
+    user: user_schema.UserLogin = Body(...),
+    current_user=Depends(get_current_user)
+):
+    return user_service.update_user(id, user, current_user)

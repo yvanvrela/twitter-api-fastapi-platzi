@@ -82,7 +82,7 @@ def get_user_by_id(user_id: int) -> user_schema.UserOut:
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail='Tweet not found',
+            detail='User not found',
         )
 
     return user_schema.UserOut(
@@ -120,6 +120,41 @@ def get_users() -> List[user_schema.UserOut]:
     return list_users
 
 
-def update_user(id: int, user: user_schema.UserOut):
-    user_reference = UserModel.filter(UserModel.id == id)
-    pass
+def update_user(user_id: int, user_update: user_schema.UserLogin, user: user_schema.UserOut):
+    user_reference = UserModel.filter(
+        (UserModel.id == user_id) & (UserModel.id == user.id)
+    ).first()
+
+    if not user_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    # Verify email
+    if user_update.email != user_reference.email:
+        user_email_reference = get_user(user_update.email)
+        if user_email_reference:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Email already registered'
+            )
+
+    # Update
+    user_reference.first_name = user_update.first_name
+    user_reference.last_name = user_update.last_name
+    user_reference.email = user_update.email
+    user_reference.birth_date = user_update.birth_date
+
+    # Hash password
+    user_reference.password = passwords.hash_password(user_update.password)
+
+    user_reference.save()
+
+    return user_schema.UserOut(
+        id=user_reference.id,
+        first_name=user_reference.first_name,
+        last_name=user_reference.last_name,
+        email=user_reference.email,
+        birth_date=user_reference.birth_date,
+    )
