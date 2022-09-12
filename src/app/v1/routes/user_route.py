@@ -1,7 +1,7 @@
 from typing import List
 
 # FastApi
-from fastapi import APIRouter, Depends, Path, Body, status
+from fastapi import APIRouter, Depends, Path, Body, Response, status
 from app.v1.services.auth_service import get_current_user
 
 from database.schemas import user_schema
@@ -72,3 +72,34 @@ async def update_user(
     current_user=Depends(get_current_user)
 ):
     return user_service.update_user(id, user, current_user)
+
+
+@router.delete(
+    path='/{id}',
+    status_code=status.HTTP_204_NO_CONTENT,
+    dependencies=[Depends(get_db)],
+    summary='Delete a user',
+)
+async def delete_user(
+    id: int = Path(
+        ...,
+        gt=0,
+        example=1,
+    ),
+    current_user=Depends(get_current_user),
+):
+    """Delete a user
+
+    This path operation delete a user in the database.
+
+    Args:
+
+        id (int): This is the user id.
+        token (str): This is the token user.
+
+    Returns:
+
+        status_code: 204
+    """
+    user_service.delete_user(id, current_user)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

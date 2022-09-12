@@ -158,3 +158,18 @@ def update_user(user_id: int, user_update: user_schema.UserLogin, user: user_sch
         email=user_reference.email,
         birth_date=user_reference.birth_date,
     )
+
+
+def delete_user(user_id: int, user: UserModel) -> None:
+    user_reference = UserModel.filter(
+        (UserModel.id == user_id) & (UserModel.id == user.id)
+    ).first()
+
+    if not user_reference:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='User not found',
+        )
+
+    # Delete recursive true delete related models
+    user_reference.delete_instance(recursive=True)

@@ -93,7 +93,7 @@ def update_tweet(tweet_id: int, tweet_update: tweet_schema.TweetOut, user: user_
     )
 
 
-def delte_tweet(tweet_id: int, user: user_schema.UserOut) -> None:
+def delete_tweet(tweet_id: int, user: user_schema.UserOut) -> None:
     tweet_reference = TweetModel.filter(
         (TweetModel.id == tweet_id) & (TweetModel.by_user == user.id)).first()
 
