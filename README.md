@@ -34,7 +34,7 @@ Features included:
    $ python3 -m venv venv
    $ source venv/bin/activate
 
-3. Install the app (You can skip this step if you have docker installed)
+3. Install the app
 
    (venv) $ pip install -r requirements.txt
 
