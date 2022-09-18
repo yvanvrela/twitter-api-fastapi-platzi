@@ -17,6 +17,7 @@ Features included:
 - Peewe (Postgresql)
 - JWT Authentication
 - FastAPI Router
+- Clean Architecture
 
 ### Requirements:
 
@@ -26,14 +27,14 @@ Features included:
 ---
 1. Clone or download de repository:
 
-   `$ git clone https://github.com/JoseNoriegaa/platzi-twitter-api-fastapi`
+   `$ git clone https://github.com/yvanvrela/twitter-api-fastapi-platzi.git`
 
 2. Open the console inside the project directory and create a virtual environment (You can skip this step if you have docker installed).
 
    $ python3 -m venv venv
    $ source venv/bin/activate
 
-3. Install the app (You can skip this step if you have docker installed)
+3. Install the app
 
    (venv) $ pip install -r requirements.txt
 
