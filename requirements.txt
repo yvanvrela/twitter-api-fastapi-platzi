@@ -5,3 +5,5 @@ python-dotenv
 psycopg2
 peewee
 python-jose[cryptography]
+pytest
+requests

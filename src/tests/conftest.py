@@ -10,11 +10,14 @@ settings = Settings()
 
 
 def postgresql_connection():
-    con = psycopg2.connect(
-        f"user='{settings.db_user}' password='{settings.db_pass}'")
-    con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    try:
+        con = psycopg2.connect(
+            f" user='postgres' password='{settings.db_pass}'")
+        con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
 
-    return con
+        return con
+    except psycopg2.OperationalError:
+        print()
 
 
 def delete_database():
@@ -26,8 +29,10 @@ def delete_database():
     con = postgresql_connection()
     cursor = con.cursor()
     # Delete the open connections
+
     cursor.execute(
-        f"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE  pg_stat_activity.datname = '{settings.db_name}' AND pid <> pg_backend_pid();")
+        f"SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '{settings.db_name}' AND pid <> pg_backend_pid();")
+
     cursor.execute(sql_drop_db)
     con.close()
 
@@ -39,3 +44,18 @@ def create_database():
     cursor = con.cursor()
     cursor.execute(sql_create_db)
     con.close()
+
+
+def pytest_sessionstart(session):
+
+    delete_database()
+    create_database()
+
+    from utils.db import db
+
+    with db:
+        db.create_tables([user_model.User, tweet_model.Tweet])
+
+
+def pytest_sessionfinish(session, exitstatus):
+    delete_database()

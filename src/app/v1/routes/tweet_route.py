@@ -10,7 +10,7 @@ from ..services.auth_service import get_current_user
 from utils.db import get_db
 
 router = APIRouter(
-    prefix='/tweets',
+    prefix='/api/v1/tweets',
     tags=['Tweet'],
 )
 
