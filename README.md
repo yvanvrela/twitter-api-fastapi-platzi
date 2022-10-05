@@ -29,7 +29,7 @@ Features included:
 
    `$ git clone https://github.com/yvanvrela/twitter-api-fastapi-platzi.git`
 
-2. Open the console inside the project directory and create a virtual environment (You can skip this step if you have docker installed).
+2. Open the console inside the project directory and create a virtual environment.
 
    $ python3 -m venv venv
    $ source venv/bin/activate
